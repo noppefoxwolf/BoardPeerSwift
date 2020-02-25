@@ -7,14 +7,26 @@
 //
 
 import UIKit
+import MultipeerConnectivity
+
+let pizarraService = "jmg-pizarra"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    var session: MCSession!
+    var peerId: MCPeerID!
+    var advertiser: MCAdvertiserAssistant!
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        let deviceName = UIDevice.current.name
+        peerId = MCPeerID(displayName: deviceName)
+        session = MCSession(peer: peerId)
+        
+        advertiser = MCAdvertiserAssistant(serviceType: pizarraService, discoveryInfo: ["dummy_key":"dummy_val"], session: session)
+        advertiser.start()
+        
         return true
     }
 
